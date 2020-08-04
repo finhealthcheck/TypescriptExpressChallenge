@@ -54,7 +54,7 @@ app.get("/", asyncHandler( async (request, response, next) => {
  *       name: string, 
  *       description: string
  *       active: boolean
- *       userCount: number
+ *       userCount: number  -> private counter, should never be settable
  *     }
 */
 const usersColl = Firestore.collection("users")
@@ -72,15 +72,19 @@ const quizzesColl = Firestore.collection("quizzes")
  *   name: "Bob Builder"
  * }
  * 
- * name: string, required, min length 1
+ * POST PARAMS VALIDATION:
+ *   name: string, required, min length 1
  *  
+ * 
  * EXPECTED RESPONSE:
  * JSON
-  {
-      "id": "uAWoWFpknToBcdZ7GF59",
-      "quizIds": [],
-      "name": "Bob Builder"
-  }
+ * {
+ *   "user": {
+ *     "id": "uAWoWFpknToBcdZ7GF59",
+ *     "quizIds": [],
+ *     "name": "Bob Builder"
+ *   }
+ * }
  * 
  */
 app.post("/users", 
@@ -101,7 +105,11 @@ app.post("/users",
  * EXPECTED RESPONSE:
  * JSON
  * {
- *   ... dump all the properties of the created user ...
+ *   "user": {
+ *     "id": "uAWoWFpknToBcdZ7GF59",
+ *     "quizIds": [],
+ *     "name": "Bob Builder"
+ *   }
  * }
  * 
  */
@@ -116,16 +124,16 @@ app.get("/users/:userId",
  /*
  * delete a user
  * 
- * name: string, required, can't be blank
- * 
  * ROUTE: 
  *   POST /users
  * 
- * EXPECTED RESPONSE:
+ * EXPECTED RESPONSE: -> The values of the object that was deleted
  * JSON
  * {
- *   user: {
- *      ... dump all the properties of the created user ...
+ *   "user": {
+ *     "id": "uAWoWFpknToBcdZ7GF59",
+ *     "quizIds": [],
+ *     "name": "Bob Builder"
  *   }
  * }
  * 
@@ -157,17 +165,19 @@ app.delete("/users/:userId", asyncHandler( async (request, response, next) => {
  * 
  * EXPECTED RESPONSE:
  * JSON
-    "quiz": {
-        "id": "KltYLDxCbP5lX6BHWY9l",
-        "description": "this is a quiz to do something",
-        "active": false,
-        "userCount": 0,
-        "name": "Quiz 2",
-        "createdOn": {
-            "_seconds": 1595465567,
-            "_nanoseconds": 643000000
-        }
-    }
+ * {
+ *   "quiz": {
+ *     "id": "KltYLDxCbP5lX6BHWY9l",
+ *     "description": "this is a quiz to do something",
+ *     "active": false,
+ *     "userCount": 0,
+ *     "name": "Quiz 2",
+ *     "createdOn": {
+ *       "_seconds": 1595465567,
+ *       "_nanoseconds": 643000000
+ *     }
+ *   }
+ * }
  * 
  * 
  * TIP: for your createdOn value, in your set call, set it to 
@@ -263,8 +273,8 @@ app.delete("/quizzes/:quizId", asyncHandler( async (request, response, next) => 
  * JSON
  * {
  *   quizes: [
- *      ... dump all the properties of the deleted quiz ...,
- *      ... dump all the properties of the deleted quiz ...,
+ *      ... dump all the properties of the quiz ...,
+ *      ... dump all the properties of the quiz ...,
  *      ...
  *   ]
  * }
