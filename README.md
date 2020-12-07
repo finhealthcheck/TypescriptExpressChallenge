@@ -37,7 +37,7 @@ Read the comments closely: they contain a few tips that will clarify certain pec
 
 - Copy this repository into your own PRIVATE repository on GitHub (the free plan allows you to has a private repository with up to 3 collaborators)
 
-- Invite the GitHub users `abfinhealth`, `angelFHC`, and `firemuzzy` to your Repository
+- Invite the GitHub users `abfinhealth`, `angelFHC`, and `elideg` to your repository
 
 - Implement the stubbed out APIs in [functions/src/index.ts](functions/src/index.ts)
 
